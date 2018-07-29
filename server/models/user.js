@@ -36,6 +36,36 @@ const userSchema = mongoose.Schema({
 
 })
 
+//hashing password -- this happens before save -- see 'save' in pre function --> userSchema.pre('save',.....)
+userSchema.pre('save',function(next){
+    let user = this;
+    if(user.isModified('password'))
+    {
+            bcrypt.genSalt(SALT_I,function(err,salt){
+            if(err) return next(err);
+
+            bcrypt.hash(user.password,salt,function(err,hash){
+                if(err) return next(err);
+                user.password = hash;
+                next()
+
+            })
+        })
+    }
+    else{
+        next();
+    }
+})
+
+//comparing password when login ---------- here were are injecting a method to User model so the method is available on any instance of User
+userSchema.methods.comparePasswords = function(candidatePassword,cb){
+    bcrypt.compare(candidatePassword,this.password,function(err,isMatch){
+        if(err) return cb(err);
+        cb(null,isMatch);
+    })
+}
+
+
 //connecting User model to its schema
 const User = mongoose.model('User',userSchema);
 

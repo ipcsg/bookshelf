@@ -19,10 +19,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
-//Routes (Requests)
+//=======================================*******Routes (Requests)*********======================================================
 
-//GET ------------
+//GET ---------------------------------------------------------------------
 
+/*Book*/
 app.get('/',(req,res)=>{
     let home = config.DATABASE;
     res.status(200).send(home)
@@ -43,6 +44,7 @@ app.get('/',(req,res)=>{
     })
 
     //---------get books
+    /*Book*/
     app.get('/api/books',(req,res)=>{
         //url example == > localhost:3001/api/books?kip=1&limit=5&order=asc
         let skip = parseInt(req.query.skip);
@@ -59,8 +61,12 @@ app.get('/',(req,res)=>{
         })
     })
 
-//POST------------
 
+
+
+//POST---------------------------------------------------------
+
+/*Book*/
 app.post('/api/book',(req,res)=>{
     //defining a new book instance with the Book model
     const book = new Book(req.body);
@@ -76,8 +82,40 @@ app.post('/api/book',(req,res)=>{
 })
 
 
-//UPDATE---------
 
+/*User*/
+app.post('/api/register',(req,res)=>{
+    let user = new User(req.body);
+    user.save((err,doc)=>{
+        if(err) return res.json({success:false});
+        res.json({
+            success:true,
+            doc
+        })
+    })
+})
+
+//User login - please refer --> comparingPasswords in user.js
+app.post('/api/login',(req,res)=>{
+
+    User.findOne({"email":req.body.email},(err,user)=>{
+
+        if(!user) return res.json({isAuth:false,message:'Austh failed. Emait not found!'});
+
+        user.comparePasswords(req.body.password,(err,isMatch)=>{
+            if(!isMatch) return res.json({
+                isAuth:false,
+                message:'Wrong Password'
+            }) 
+        })
+
+    })
+
+})
+
+
+//UPDATE------------------------------------------------------------------
+/*Book*/
 app.post('/api/book_update',(req,res)=>{
 
     Book.findByIdAndUpdate(req.body._id,req.body,(err,doc)=>{
@@ -94,7 +132,12 @@ app.post('/api/book_update',(req,res)=>{
 })
 
 
-//DELETE----------
+
+
+
+
+//DELETE------------------------------------------------------------------------
+/*Book*/
 app.delete('/api/delete_book',(req,res)=>{
     let id = req.query.id;
     Book.findByIdAndRemove(id,(err,doc)=>{
@@ -102,6 +145,7 @@ app.delete('/api/delete_book',(req,res)=>{
         res.json(true)
     })
 })
+
 
 //listening to port
 const port = process.env.PORT || 3001;
