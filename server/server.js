@@ -100,14 +100,64 @@ app.post('/api/login',(req,res)=>{
 
     User.findOne({"email":req.body.email},(err,user)=>{
 
-        if(!user) return res.json({isAuth:false,message:'Austh failed. Emait not found!'});
+        if(!user) return res.json({isAuth:false,message:'Auth failed. Emait not found!'});
 
         user.comparePasswords(req.body.password,(err,isMatch)=>{
+            //if password did not match
             if(!isMatch) return res.json({
                 isAuth:false,
                 message:'Wrong Password'
             }) 
+
+            //if password matched
+            user.generateToken((err,user)=>{
+                if(err) return res.status(400).send(err);
+
+                res.cookie('auth',user.token).json({
+                    isAuth:true,
+                    id:user._id,
+                    email:user.email
+                })
+            })
+
+
         })
+
+    })
+
+})
+
+// Get reviewer name
+app.get('/api/getReviewer',(req,res)=>{
+    //get the id from the query eg:---->  http://localhost:3000/api/getReviewer?id=213g86821238971
+    let id = req.query.id;
+    
+    User.findById(id,(err,user)=>{
+        //if err
+        if(err) return res.status(400).send(err);
+
+        //if user found
+        res.json({
+            name:user.name,
+            lastname:user.lastname
+        })
+
+    })
+
+
+})
+
+
+//Get all users
+app.get('/api/users',(req,res)=>{
+
+    User.find({},(err,users)=>{
+        //if err
+        if(err) return res.status(400).send(err);
+
+        //if any
+        res.send(users);
+
 
     })
 

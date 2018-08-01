@@ -65,6 +65,17 @@ userSchema.methods.comparePasswords = function(candidatePassword,cb){
     })
 }
 
+//Generating tokens when login (for sessions)
+userSchema.methods.generateToken = function(cb){
+    let user = this;
+    let token = jwt.sign(user._id.toHexString(), config.SECRET);
+
+    user.token = token;
+    user.save(function(err,user){
+        if(err) return cb(err);
+        cb(null,user);
+    })
+}
 
 //connecting User model to its schema
 const User = mongoose.model('User',userSchema);
