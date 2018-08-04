@@ -77,6 +77,30 @@ userSchema.methods.generateToken = function(cb){
     })
 }
 
+//Decode the token and get the specific user who has that token
+userSchema.statics.findByToken = function(token,cb){
+    let user = this;
+    jwt.verify(token,config.SECRET,function(err,decode){
+        user.findOne({"_id":decode,"token":token},function(err,user){
+            if(err) return cb(err);
+            cb(null,user);
+        });
+    })
+}
+
+//Delete a token (when logging out)
+userSchema.methods.deleteToken = function(token,cb){
+    let user = this;
+
+    user.update({$unset:{token:1}}, (err,user)=>{
+
+        if(err) return cb(err);
+
+        return cb(null,user);
+
+    })
+}
+
 //connecting User model to its schema
 const User = mongoose.model('User',userSchema);
 

@@ -14,6 +14,9 @@ mongoose.connect(config.DATABASE,{useNewUrlParser:true});//config.DATABASE at co
 const { User } = require('./models/user');
 const { Book } = require('./models/book');
 
+//import custom middleware
+const { auth } = require('./middleware/auth');
+
 //using middlewares
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -62,7 +65,68 @@ app.get('/',(req,res)=>{
     })
 
 
+// Get reviewer name
+app.get('/api/getReviewer',(req,res)=>{
+    //get the id from the query eg:---->  http://localhost:3000/api/getReviewer?id=213g86821238971
+    let id = req.query.id;
+    
+    User.findById(id,(err,user)=>{
+        //if err
+        if(err) return res.status(400).send(err);
 
+        //if user found
+        res.json({
+            name:user.name,
+            lastname:user.lastname
+        })
+
+    })
+
+
+})
+
+
+//Get all users
+app.get('/api/users',(req,res)=>{
+
+    User.find({},(err,users)=>{
+        //if err
+        if(err) return res.status(400).send(err);
+
+        //if any
+        res.send(users);
+
+
+    })
+
+})
+
+//Get user posts
+app.get('/api/user_posts',(req,res)=>{
+
+    Book.find({ownerId:req.query.user}).exec((err,docs)=>{
+        if(err) return res.status(400).send(err);
+        res.send(docs);
+    })
+
+})
+
+
+//Logout a user ---- here middleware "auth" is used
+app.get('/api/logout',auth,(req,res)=>{
+
+        // res.send(req.user);
+        req.user.deleteToken(req.token, (err,user)=>{
+
+            //if err
+            if(err) return res.status(400).send(err);
+            
+            //if the token was deleted send successful message
+            res.sendStatus(200);
+
+        })
+
+})
 
 //POST---------------------------------------------------------
 
@@ -127,41 +191,6 @@ app.post('/api/login',(req,res)=>{
 
 })
 
-// Get reviewer name
-app.get('/api/getReviewer',(req,res)=>{
-    //get the id from the query eg:---->  http://localhost:3000/api/getReviewer?id=213g86821238971
-    let id = req.query.id;
-    
-    User.findById(id,(err,user)=>{
-        //if err
-        if(err) return res.status(400).send(err);
-
-        //if user found
-        res.json({
-            name:user.name,
-            lastname:user.lastname
-        })
-
-    })
-
-
-})
-
-
-//Get all users
-app.get('/api/users',(req,res)=>{
-
-    User.find({},(err,users)=>{
-        //if err
-        if(err) return res.status(400).send(err);
-
-        //if any
-        res.send(users);
-
-
-    })
-
-})
 
 
 //UPDATE------------------------------------------------------------------
