@@ -128,6 +128,20 @@ app.get('/api/logout',auth,(req,res)=>{
 
 })
 
+//Check whether the the user is logged in and authenticated
+app.get('/api/auth',auth,(req,res)=>{ //refer auth.js
+
+    res.json({
+        isAuth:true,
+        id:req.user._id,
+        email:req.user.email,
+        name:req.user.name,
+        lastname:req.user.lastname
+
+    })
+
+})
+
 //POST---------------------------------------------------------
 
 /*Book*/
