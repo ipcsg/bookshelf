@@ -96,10 +96,11 @@ userSchema.methods.deleteToken = function(token,cb){
 
         if(err) return cb(err);
 
-        return cb(null,user);
+        cb(null,user);
 
     })
 }
+
 
 //connecting User model to its schema
 const User = mongoose.model('User',userSchema);
