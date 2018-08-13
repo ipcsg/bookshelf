@@ -49,7 +49,7 @@ app.get('/',(req,res)=>{
     //---------get books
     /*Book*/
     app.get('/api/books',(req,res)=>{
-        //url example == > localhost:3001/api/books?kip=1&limit=5&order=asc
+        //url example == > localhost:3001/api/books?skip=1&limit=5&order=asc
         let skip = parseInt(req.query.skip);
         let limit = parseInt(req.query.limit);
         let order = req.query.order;
