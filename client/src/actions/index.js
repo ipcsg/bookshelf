@@ -28,3 +28,33 @@ export function getBooks(
     }
 
 }
+
+
+export function getBookWithReviewer(id){
+
+    const request = axios.get(`/api/getBook?id=${id}`);
+
+    return (dispatch)=>{
+        request.then(({data})=>{//destructuing data received from axios.get request
+            let book = data;
+            
+            axios.get(`/api/getReviewer?id=${book.ownerId}`)
+                .then(({data})=>{
+
+                    let response={
+                        book,
+                        reviewer:data
+                    }
+                    console.log(response);
+                    return{
+                        type:'GET_BOOK_W_REVIEWER',
+                        payload:response
+                    }
+                });
+
+        });
+    
+    }
+    
+    
+}
