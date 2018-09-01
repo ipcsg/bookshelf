@@ -32,12 +32,12 @@ export function getBooks(
 
 export function getBookWithReviewer(id){
 
-    const request = axios.get(`/api/getBook?id=${id}`);
+    const request = axios.get(`/api/getBook?id=${id}`)
 
     return (dispatch)=>{
         request.then(({data})=>{//destructuing data received from axios.get request
             let book = data;
-            
+            //console.log(data)
             axios.get(`/api/getReviewer?id=${book.ownerId}`)
                 .then(({data})=>{
 
@@ -46,10 +46,10 @@ export function getBookWithReviewer(id){
                         reviewer:data
                     }
                     console.log(response);
-                    return{
+                    dispatch({
                         type:'GET_BOOK_W_REVIEWER',
                         payload:response
-                    }
+                    })
                 });
 
         });
@@ -57,4 +57,38 @@ export function getBookWithReviewer(id){
     }
     
     
+}
+
+// export function getBookWithReviewer(id){
+//     const request = axios.get(`/api/getBook?id=${id}`)
+
+//     return (dispatch)=>{
+//         request.then(({data})=>{
+//             let book = data;
+
+//             axios.get(`/api/getReviewer?id=${book.ownerId}`)
+//             .then(({data})=>{
+//                 let response = {
+//                     book,
+//                     reviewer:data
+//                 }
+
+//                 dispatch({
+//                     type:'GET_BOOK_W_REVIEWER',
+//                     payload:response
+//                 })
+//             })
+//         })
+//     }
+// }
+
+export function clearBookWithReviewer(){//clearing store for the component so the article is loaded without displaying the previously loaded article first
+    //reference the reducer as well for this
+    return {
+         type:'CLEAR_BOOK_W_REVIEWER',
+         payload:{
+             book:{},
+             reviewer:{}
+         }
+    }
 }

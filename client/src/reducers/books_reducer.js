@@ -1,3 +1,5 @@
+import { STATES } from "mongoose";
+
 export default function(state={},action){
 
     switch(action.type){
@@ -6,6 +8,12 @@ export default function(state={},action){
             return {...state,list:action.payload}//existing state and the data derived from the action
         case 'GET_BOOK_W_REVIEWER':
             return {...state,
+                book:action.payload.book,
+                reviewer:action.payload.reviewer
+            }
+        case 'CLEAR_BOOK_W_REVIEWER':
+            return{
+                ...state,
                 book:action.payload.book,
                 reviewer:action.payload.reviewer
             }
