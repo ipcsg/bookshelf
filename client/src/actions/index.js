@@ -92,3 +92,15 @@ export function clearBookWithReviewer(){//clearing store for the component so th
          }
     }
 }
+
+/*=============== USER======================*/
+
+export function loginUser({email, password})//destructuring
+{
+    const request = axios.post('/api/login',{email,password})
+                    .then(response => response.data);
+    return {
+        type:'USER_LOGIN',
+        payload:request
+    }
+}
