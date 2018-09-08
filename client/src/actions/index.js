@@ -105,10 +105,22 @@ export function loginUser({email, password})//destructuring
     }
 }
 
-export function auth(){
-    const request = axios.get('/api/auth').then(response => response.data);
+// export function auth(){
+//     const request = axios.get('/api/auth').then(response => response.data);
+//     return {
+//         type:'USER_AUTH',
+//         payload:request
+//     }
+// }
+
+//I have used async/await instead of the above
+//https://hackernoon.com/6-reasons-why-javascripts-async-await-blows-promises-away-tutorial-c7ec10518dd9
+//https://hackernoon.com/javascript-async-await-the-good-part-pitfalls-and-how-to-use-9b759ca21cda
+//https://medium.freecodecamp.org/avoiding-the-async-await-hell-c77a0fb71c4c
+export const auth =async ()=>{
+    const request=await axios.get('/api/auth');
     return {
-        type:'USER_AUTH',
-        payload:request
+        type:'USER_LOGIN',
+        payload:request.data
     }
 }

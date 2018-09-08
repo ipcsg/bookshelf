@@ -18,9 +18,15 @@ export default function(ComposedClass,reload){
             this.setState({loading:false})
             console.log(nextProps)
 
-            if(nextProps.user.login.isAuth){
+            if(!nextProps.user.login.isAuth){
+                if(reload){
+                 this.props.history.push('/login');
+                }
 
             }else{
+                if(reload === false){
+                this.props.history.push('/user')
+                }
 
             }
         }
@@ -32,7 +38,7 @@ export default function(ComposedClass,reload){
 
             return(
 
-                <ComposedClass {...this.props} user="" />//all the props received from home route in routes.js
+                <ComposedClass {...this.props} user={this.props.user} />//all the props received from home route in routes.js
                 
             )
         
