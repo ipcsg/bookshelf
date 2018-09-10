@@ -1,4 +1,4 @@
-import { STATES } from "mongoose";
+//import { STATES } from "mongoose";//????
 
 export default function(state={},action){
 
@@ -17,6 +17,17 @@ export default function(state={},action){
                 book:action.payload.book,
                 reviewer:action.payload.reviewer
             }
+        case 'ADD_BOOK':
+            return{
+                ...state,
+            newbook:action.payload
+            }
+        case 'CLEAR_NEW_BOOK':
+            return{
+                ...state,
+            newbook:action.payload
+            }
+            
         default:
             return state;
     }
