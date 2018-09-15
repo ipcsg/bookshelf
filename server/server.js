@@ -101,7 +101,7 @@ app.get('/api/users',(req,res)=>{
 
 })
 
-//Get user posts
+//Get user posts ---> eg:-   /api/user_posts?user=is3247jjjaadk
 app.get('/api/user_posts',(req,res)=>{
 
     Book.find({ownerId:req.query.user}).exec((err,docs)=>{

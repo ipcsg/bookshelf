@@ -27,7 +27,7 @@ export default function(state={},action){
                 ...state,
             newbook:action.payload
             }
-            
+        
         default:
             return state;
     }

@@ -93,6 +93,8 @@ export function clearBookWithReviewer(){//clearing store for the component so th
     }
 }
 
+
+
 /*=============== USER======================*/
 
 export function loginUser({email, password})//destructuring
@@ -140,4 +142,14 @@ export function clearNewBook(){
         type:'CLEAR_NEW_BOOK',
         payload:{}
     }
+}
+
+
+export const getUserPosts = async (id)=>{
+    const request=await axios.get(`/api/user_posts?user=${id}`);
+    return{
+        type:'GET_USER_POSTS',
+        payload:request.data
+    }
+
 }

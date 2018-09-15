@@ -11,6 +11,13 @@ export default function(state={},action){
                 ...state,
                 login:action.payload
             }
+        
+        case 'GET_USER_POSTS':
+            return{
+                ...state,
+                userPosts:action.payload
+            }
+
         default:
             return state;
     }
