@@ -29,6 +29,16 @@ export function getBooks(
 
 }
 
+export function getBook(id){
+    const request = axios.get(`/api/getBook?id=${id}`)
+                    .then(response=>response.data);
+
+    return {
+        type:'GET_BOOK',
+        payload:request
+    }
+
+}
 
 export function getBookWithReviewer(id){
 
@@ -90,6 +100,16 @@ export function clearBookWithReviewer(){//clearing store for the component so th
              book:{},
              reviewer:{}
          }
+    }
+}
+
+export function updateBook(data){
+    const request = axios.post(`/api/book_update`,data)
+                    .then(response=>response.data)
+    
+    return{
+        type:'UPDATE_BOOK',
+        return:request
     }
 }
 

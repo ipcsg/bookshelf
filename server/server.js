@@ -34,7 +34,7 @@ app.get('/',(req,res)=>{
 
     //--------get book by Id
     app.get('/api/getBook',(req,res)=>{
-        
+        //url example ==> /ap/getBook?id=343539jdjhjadv7
         let id = req.query.id;
         Book.findById(id,(err,doc)=>{
             //if not found or error

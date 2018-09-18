@@ -6,6 +6,12 @@ export default function(state={},action){
 
         case 'GET_BOOKS':
             return {...state,list:action.payload}//existing state and the data derived from the action
+        
+        case 'GET_BOOK':
+            return {
+                ...state,
+                book:action.payload
+            }
         case 'GET_BOOK_W_REVIEWER':
             return {...state,
                 book:action.payload.book,
@@ -21,6 +27,11 @@ export default function(state={},action){
             return{
                 ...state,
             newbook:action.payload
+            }
+        case 'UPDATE_BOOK':
+            return{
+                ...state,
+                newbook:action.payload
             }
         case 'CLEAR_NEW_BOOK':
             return{
