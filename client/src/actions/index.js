@@ -97,7 +97,7 @@ export function clearBookWithReviewer(){//clearing store for the component so th
     return {
          type:'CLEAR_BOOK_W_REVIEWER',
          payload:{
-             book:{},
+             book:null, //otherwise component will try to render empty object at first attempt which could result in an error. Eg: "TypeError: Cannot read property 'name' of undefined"
              reviewer:{}
          }
     }
@@ -125,7 +125,7 @@ export function clearBook(){
     return{
        type:'CLEAR_BOOK', 
        payload: {
-            book:{},
+            book:null, //otherwise component will try to render empty object at first attempt which could result in an error. Eg: "TypeError: Cannot read property 'name' of undefined"
             updateBook:false,
             postDeleted:false
 
