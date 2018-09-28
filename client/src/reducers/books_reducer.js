@@ -9,36 +9,47 @@ export default function(state={},action){
         
         case 'GET_BOOK':
             return {
-                ...state,
+                ...state,//existing state
                 book:action.payload
             }
         case 'GET_BOOK_W_REVIEWER':
-            return {...state,
+            return {...state,//existing state
                 book:action.payload.book,
                 reviewer:action.payload.reviewer
             }
         case 'CLEAR_BOOK_W_REVIEWER':
             return{
-                ...state,
+                ...state,//existing state
                 book:action.payload.book,
                 reviewer:action.payload.reviewer
             }
         case 'ADD_BOOK':
             return{
-                ...state,
+                ...state,//existing state
             newbook:action.payload
             }
-        case 'UPDATE_BOOK':
-            return{
-                ...state,
-                newbook:action.payload
+            case 'UPDATE_BOOK':
+            return {
+                ...state,//existing state
+                updateBook:action.payload.success,
+                book:action.payload.doc
             }
         case 'CLEAR_NEW_BOOK':
             return{
-                ...state,
+                ...state,//existing state
             newbook:action.payload
             }
-        
+        case 'DELETE_BOOK':
+            return{
+                ...state,//existing state
+                postDeleted:action.payload
+            }
+        case 'CLEAR_BOOK':
+            return{
+                ...state,
+                updateBook:action.payload.updateBook,
+                postDeleted:action.payload.postDeleted
+            }
         default:
             return state;
     }

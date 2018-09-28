@@ -1,0 +1,77 @@
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getBook } from '../../actions';
+import ReviewForm from './reviewform';
+// import { addBook, clearNewBook } from '../../actions';
+
+class EditBook extends PureComponent {
+    
+    state={
+        
+        formdata:{
+            _id:this.props.match.params.id,
+            name:'',
+            author:'',
+            review:'',
+            pages:'',
+            rating:'',
+            price:''
+           // hasUserEdits:false
+        },
+
+        hasUserEdits:''
+    }
+
+    
+   
+    componentDidMount(){
+        this.props.dispatch(getBook(this.props.match.params.id))
+    }
+    
+
+
+    // static getDerivedStateFromProps(props,state){//receives incoming props -->props
+    //     console.log(props);
+    //     let { book } = props.books;
+    //     // let { _id, name, author, review, pages, rating, price} = book;
+      
+       
+    //     if(props.books.book !== undefined){
+    //     return { formdata:{ ...book}, hasUserEdits:false }
+    //     }
+
+    
+      
+    //     return null
+
+    
+    // }
+
+
+    // //-----------------------------------------------------------------------
+ 
+    
+
+    render() {
+        return (
+
+            <ReviewForm {...this.props} />
+           
+        )
+    }
+}
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        books: state.books
+    }
+}
+
+export default connect(mapStateToProps)(EditBook);
+
+
+
+
+

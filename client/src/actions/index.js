@@ -109,12 +109,29 @@ export function updateBook(data){
     
     return{
         type:'UPDATE_BOOK',
-        return:request
+        payload:request
     }
 }
 
+export function deleteBook(id){
+    const request = axios.delete(`/api/delete_book?id=${id}`).then(response=>response.data);
+    return{
+        type:'DELETE_BOOK',
+        payload:request
+    }
+}
 
+export function clearBook(){
+    return{
+       type:'CLEAR_BOOK', 
+       payload: {
+            book:{},
+            updateBook:false,
+            postDeleted:false
 
+        }
+    }
+}
 /*=============== USER======================*/
 
 export function loginUser({email, password})//destructuring
