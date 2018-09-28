@@ -190,3 +190,15 @@ export const getUserPosts = async (id)=>{
     }
 
 }
+
+export function getUsers(){
+
+    const request = axios.get('/api/users')
+                        .then(response=>response.data);
+
+    return {
+        type:'GET_USERS',
+        payload:request
+    }
+
+}
