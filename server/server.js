@@ -178,7 +178,7 @@ app.post('/api/login',(req,res)=>{
 
     User.findOne({"email":req.body.email},(err,user)=>{
 
-        if(!user) return res.json({isAuth:false,message:'Auth failed. Emait not found!'});
+        if(!user) return res.json({isAuth:false,message:'Auth failed. Email not found!'});
 
         user.comparePasswords(req.body.password,(err,isMatch)=>{
             //if password did not match
