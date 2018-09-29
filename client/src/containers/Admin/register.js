@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { getUsers, userRegister } from '../../actions/index.js';
 import User from '../../components/Admin/index.js';
 
-class Register extends Component {
+class Register extends PureComponent {
 
     state={
         name:'',
         lastname:'',
         email:'',
         password:'',
-        error:''
+        error:'',
+        formSubmitted:false // checks whether the form is submitted
     }
 
     componentDidMount(){
@@ -48,9 +49,7 @@ class Register extends Component {
 
     submitForm = (e) =>{
         e.preventDefault();
-        this.setState({
-            error:''
-        });
+        
 
         this.props.dispatch(userRegister({
             email:this.state.email,
@@ -59,6 +58,9 @@ class Register extends Component {
             lastname:this.state.lastname
         }, this.props.user.users));
 
+        
+            this.setState({formSubmitted:true});
+        
         // if(this.props.user.success){
         // this.setState({
         //     name:'',
@@ -82,6 +84,55 @@ class Register extends Component {
         ))
        :null
     )
+
+    // static getDerivedStateFromProps(nextProps,prevState){
+    //     if(nextProps.user.register === false){
+    //         return { error: 'Error! Try again!'}
+    //     }
+
+    //     return {error:null}
+    // }
+
+    componentDidUpdate = (prevProps) => {
+      
+        console.log(this.props.user);
+        console.log(prevProps.user);
+        if(this.props.user.register === false){
+            this.setState({
+                error:'Error, please try again!'
+            })
+        }
+        else if(this.state.formSubmitted && this.props.user.register === true){
+            this.setState({
+                name:'',
+                lastname:'',
+                email:'',
+                password:'',
+                error:'',
+                formSubmitted:false
+            })
+        }
+        console.log('submitted->',this.state.formSubmitted,'register->',this.props.user.register)
+        // if(nextProps.user.register === false){
+        //     this.setState({
+        //         error:'Error, please try again!'
+        //     })
+        // }
+        // else{
+        //     this.setState({
+                 
+        //         name:'',
+        //         lastname:'',
+        //         email:'',
+        //         password:'',
+        //         error:''
+            
+        //     })
+        // }
+        
+
+    };
+    
 
 
     

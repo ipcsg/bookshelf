@@ -208,10 +208,11 @@ export function userRegister(user, userList){
 
     return (dispatch)=>{
         request.then(({data})=>{
-            console.log(data)
+            //console.log(data)
+            let users = data.success ? [...userList,data.doc] : [...userList]; //to prevent undefined property error. Because and error occured data.doc wouldn't be there.
             let response = {
                 success:data.success,
-                users:[...userList,data.doc]
+                users
             }
 
             dispatch({
