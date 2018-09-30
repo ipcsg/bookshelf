@@ -21,6 +21,8 @@ const { auth } = require('./middleware/auth');
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+//when uploading to a live server like heroku, tell express to look for *static files* like .css etc in the client/build directory
+app.use(express.static('client/build'));
 
 //=======================================*******Routes (Requests)*********======================================================
 
@@ -238,6 +240,13 @@ app.delete('/api/delete_book',(req,res)=>{
     })
 })
 
+//if an unkown api request is made on live server (ie. heroku), then result is the html file in client/build/index.html
+if(process.env.NODE_ENV === 'production'){
+    const path = require('path');
+    app.get('/*',(req,res)=>{
+        res.sendfile(path.resolve(__dirname,'../client','build','index.html')) //root dir---> / dir/build/file
+    })
+}
 
 //listening to port
 const port = process.env.PORT || 3001;
