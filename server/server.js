@@ -95,8 +95,7 @@ app.get('/api/users',(req,res)=>{
 
         //if any
         res.send(users);
-
-
+        
     })
 
 })
